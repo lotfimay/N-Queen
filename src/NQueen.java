@@ -17,12 +17,7 @@ public class NQueen {
         return new NQueen(problem.getQueens());
     }
 
-    public static NQueen getRandomSolution(int size){
-        NQueen solution = new NQueen(size);
-        IntStream.range(0 , size)
-                .forEach(index -> solution.placeAQueen(index , Utils.generateRandomInt(1 , size)));
-        return solution;
-    }
+
     public void placeAQueen(int line , int column){
            this.queens[line] = column;
     }
@@ -38,7 +33,7 @@ public class NQueen {
 
 
 
-    public  boolean isValidNQueenSolution(int checkDiagonal) {
+    public  boolean isValidNQueenSolution() {
         int n = this.getTheFirstEmpty() == -1 ? this.queens.length : this.getTheFirstEmpty();
 
 
@@ -51,56 +46,21 @@ public class NQueen {
         }
 
         // Check if no two queens are on the same diagonal
-        if(checkDiagonal == 1) {
-            for (int i = 0; i < n; i++) {
-                for (int j = i + 1; j < n; j++) {
-                    if (Math.abs(this.queens[i] - this.queens[j]) == Math.abs(i - j)) {
+
+        for (int i = 0; i < n; i++) {
+            for (int j = i + 1; j < n; j++) {
+                if (Math.abs(this.queens[i] - this.queens[j]) == Math.abs(i - j)) {
                         return false;
-                    }
                 }
             }
-        }
+            }
         return true;
     }
 
     public boolean isFinalState(){
         return this.getTheFirstEmpty() == -1;
     }
-    public int getDiagonalConflicts(){
-        int n = this.getTheFirstEmpty() == -1 ? this.getQueens().length : this.getTheFirstEmpty();
-        int attacks = 0;
-        for (int i = 0; i < n; i++) {
-            for (int j = i + 1; j < n; j++) {
-                if (Math.abs(this.getQueens()[i] - this.getQueens()[j]) == Math.abs(i - j)) {
-                    attacks++;
-                }
-            }
-        }
-        return attacks;
-    }
-    public int getThreateningQueens(){
-        int lastElementRow = this.getTheFirstEmpty() == - 1 ? this.getQueens().length - 1 : this.getTheFirstEmpty() - 1;
-        int lastElementColumn = this.getQueens()[lastElementRow];
-        int attacks = 0;
-        for(int i = 0 ; i < lastElementRow ; i++){
-            int current = this.getQueens()[i];
-            if(current == lastElementColumn || Math.abs(i - lastElementRow) == Math.abs(this.getQueens()[i] - this.getQueens()[lastElementRow])){
-                attacks++;
-            }
-        }
-        return attacks;
-    }
-    public int getConflicts(){
-        int size = this.getTheFirstEmpty() == -1 ? this.getQueens().length : getTheFirstEmpty();
-        int attacks = 0;
-        for(int i = 0 ; i < size ; i++){
-            for(int j = i + 1 ; j < size ; j++){
-                if(queens [i] == queens[j] || Math.abs(queens[i] - queens[j]) == Math.abs(i - j))
-                    attacks++;
-            }
-        }
-        return attacks;
-    }
+
     public  List<NQueen> getNextNodes(){
         List<NQueen> result = new ArrayList<>();
         int index = this.getTheFirstEmpty();
